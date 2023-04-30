@@ -1,4 +1,4 @@
-from compare import get_closest_word, get_closest_but_different
+from compare import get_closest_word
 from wiki_search import parse_topics_from_links, search_topic
 def filter_words(search_words, exclude):
     filtered_words = []
@@ -26,7 +26,7 @@ def wiki_game(start, end):
             if link.get('href') not in tried_links:
                 internal_links.append(link)
         linked_topics = parse_topics_from_links(internal_links)
-        best_index, distance = get_closest_but_different(end_word, linked_topics, current_word)
+        best_index, distance = get_closest_word(end_word, linked_topics)
         current = internal_links[best_index].get("href")
         current_word = current[6:].replace("_", " ")
         tried_links.add(current)
