@@ -1,11 +1,11 @@
+
 import openai
 import numpy as np
 import json
+import os
 
 def load_key():
-    f = open("secrets/key.txt", "r")
-    openai.api_key = f.readline()
-    f.close()
+    openai.api_key = os.environ["OPENAI_API_KEY"]
 
 def get_embeddings(queries: list[str]) -> list[list[float]]:
     output = []

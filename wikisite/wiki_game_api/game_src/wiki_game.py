@@ -1,5 +1,5 @@
-from compare import get_closest_word
-from wiki_search import parse_topics_from_links, search_topic
+from wiki_game_api.game_src import compare
+from wiki_game_api.game_src import wiki_search
 def filter_words(search_words, exclude):
     filtered_words = []
     for words in search_words:
@@ -14,23 +14,23 @@ def wiki_game(start, end):
     num_steps = 0
     current = start
     end_word = end[6:].replace("_", " ")
-    current_word = current[6:].replace("_", " ")
-    tried_links = {current}
-    while current_word != end_word and num_steps < 30:
-        scraped_links = search_topic(current)
+    tried_links = [current]
+    while current != end and num_steps < 30:
+        scraped_links = wiki_search.search_topic(current)
         internal_links = []
         for link in scraped_links:
             if link.get('href') == end:
-                print(end)
-                return
+                tried_links.append(end)
+                return tried_links
             if link.get('href') not in tried_links:
                 internal_links.append(link)
-        linked_topics = parse_topics_from_links(internal_links)
-        best_index, distance = get_closest_word(end_word, linked_topics)
+        linked_topics = wiki_search.parse_topics_from_links(internal_links)
+        best_index, _ = compare.get_closest_word(end_word, linked_topics)
         current = internal_links[best_index].get("href")
-        current_word = current[6:].replace("_", " ")
-        tried_links.add(current)
-        print(current_word,  distance)
+        tried_links.append(current)
         num_steps += 1
+    
+    return tried_links
 
-wiki_game("/wiki/Fire", "/wiki/Biology")
+if __name__ == "__main__":
+    print(wiki_game("/wiki/Fire", "/wiki/Biology"))
