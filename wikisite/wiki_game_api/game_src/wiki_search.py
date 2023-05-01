@@ -24,6 +24,8 @@ class WikiPage:
     def __init__(self, topic_link: str, exclude_links:list[str] = []):
         base_url = "https://en.wikipedia.org"
         response = requests.get(base_url+topic_link)
+        if response.status_code != 200:
+            raise ValueError()
         self.soup = BeautifulSoup(response.text, "html.parser")
         links = self.soup.find(id="bodyContent").find_all('a')
         self.internal_links = get_internal_links(links)
