@@ -1,4 +1,3 @@
-
 import numpy as np
 from wiki_game_api.game_src import helper
 

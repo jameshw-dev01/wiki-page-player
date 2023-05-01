@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpRequest, HttpResponseBadRequest, HttpResponse
+from django.http import HttpRequest, HttpResponseBadRequest, JsonResponse
 from wiki_game_api.game_src.wiki_game import wiki_game
 import json
 
@@ -10,6 +10,8 @@ def game_request(request: HttpRequest):
     if wiki_start_link is None or wiki_end_link is None:
         return HttpResponseBadRequest("Argument is missing")
     else:
-        searched_links = wiki_game(wiki_start_link, wiki_end_link)
-
-        return HttpResponse(str(searched_links))
+        try:
+            game_data = wiki_game(wiki_start_link, wiki_end_link)
+            return JsonResponse(game_data)
+        except:
+            return HttpResponseBadRequest("Something went wrong")
