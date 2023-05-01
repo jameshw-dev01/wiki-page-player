@@ -1,3 +1,2 @@
-import openai
-import os
-openai.api_key = os.environ["OPENAI_API_KEY"]
+from wiki_game_api.game_src import wiki_game
+wiki_game.wiki_game("/wiki/Leo_Tolstoy", "/wiki/Dolphin")

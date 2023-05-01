@@ -46,7 +46,7 @@ class WikiPage:
         return ""
 
     def get_link_context(self, link: Tag) -> str:
-        link.string = "*" + link.string + '*'
+        link.string = "*" + link.get_text() + '*'
         for parent in link.parents:
             if parent is not None and parent.name == 'p':
                 return parent.get_text("")
