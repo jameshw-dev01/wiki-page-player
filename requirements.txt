@@ -1,0 +1,6 @@
+openai
+django
+beautifulsoup4
+numpy
+django-cors-headers
+gunicorn
